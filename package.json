@@ -17,7 +17,7 @@
     "eslint": "^9.39.2",
     "globals": "^16.5.0"
   },
-  "workspaces":[
+  "workspaces": [
     "ch02",
     "ch04",
     "ch05",
@@ -26,5 +26,8 @@
     "ch08",
     "ch09",
     "ch10"
-  ]
+  ],
+  "dependencies": {
+    "mongodb": "^7.0.0"
+  }
 }
