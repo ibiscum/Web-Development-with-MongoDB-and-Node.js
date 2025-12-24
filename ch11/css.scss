@@ -1,10 +1,10 @@
-$sprite-bg:url("/images/editor/sprite-msg-bg.png");
+$sprite-bg: url("/images/editor/sprite-msg-bg.png");
 
 @mixin radius($radius) {
-  -moz-border-radius: $radius;
-  -webkit-border-radius: $radius;
-  -ms-border-radius: $radius;
-  border-radius: $radius;
+    -moz-border-radius: $radius;
+    -webkit-border-radius: $radius;
+    -ms-border-radius: $radius;
+    border-radius: $radius;
 }
 
 .upload-button {
@@ -15,19 +15,22 @@ $sprite-bg:url("/images/editor/sprite-msg-bg.png");
 }
 
 #step-status {
-    color:#dbdbdb; font-size:14px;
+    color: #dbdbdb;
+    font-size: 14px;
+
     span.active {
-        color:#1e8acb;
+        color: #1e8acb;
     }
 
-    &.basic-adjust, &.message-editor {
+    &.basic-adjust,
+    &.message-editor {
         width: 525px;
     }
 
     .icon {
-        height:65px;
+        height: 65px;
         width: 50px;
-        margin:auto;
+        margin: auto;
     }
 }
 
