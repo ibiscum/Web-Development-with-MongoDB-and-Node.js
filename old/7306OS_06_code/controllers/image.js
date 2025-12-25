@@ -52,15 +52,21 @@ module.exports = {
 
             if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
                 fs.rename(tempPath, targetPath, function(err) {
-                    if (err) throw err;
+                    if (err) {
+                        console.error('Error moving uploaded file from %s to %s: %s', tempPath, targetPath, err.message || err);
+                        return res.status(500).json({ error: 'Error saving uploaded file.' });
+                    }
 
                     res.redirect('/images/' + imgUrl);
                 });
             } else {
-                fs.unlink(tempPath, function () {
-                    if (err) throw err;
+                fs.unlink(tempPath, function (err) {
+                    if (err) {
+                        console.error('Error removing temporary uploaded file %s: %s', tempPath, err.message || err);
+                        return res.status(500).json({ error: 'Error processing uploaded file.' });
+                    }
 
-                    res.json(500, {error: 'Only image files are allowed.'});
+                    res.status(500).json({ error: 'Only image files are allowed.' });
                 });
             }
         };
