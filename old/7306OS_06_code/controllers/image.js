@@ -1,5 +1,6 @@
 var fs = require('fs'),
     path = require('path'),
+    os = require('os'),
     sidebar = require('../helpers/sidebar');
 
 module.exports = {
@@ -52,15 +53,30 @@ module.exports = {
 
             if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
                 fs.rename(tempPath, targetPath, function(err) {
-                    if (err) throw err;
+                    if (err) {
+                        console.error('Error moving uploaded file from %s to %s: %s', tempPath, targetPath, err.message || err);
+                        return res.status(500).json({ error: 'Error saving uploaded file.' });
+                    }
 
                     res.redirect('/images/' + imgUrl);
                 });
             } else {
-                fs.unlink(tempPath, function () {
-                    if (err) throw err;
+                var uploadTempDir = os.tmpdir();
+                var normalizedTempPath = path.resolve(tempPath);
 
-                    res.json(500, {error: 'Only image files are allowed.'});
+                // Ensure that the temporary path is within the system temp directory
+                if (normalizedTempPath.indexOf(uploadTempDir + path.sep) !== 0 && normalizedTempPath !== uploadTempDir) {
+                    console.warn('Refusing to remove file outside temp directory: %s', normalizedTempPath);
+                    return res.status(500).json({ error: 'Error processing uploaded file.' });
+                }
+
+                fs.unlink(normalizedTempPath, function (err) {
+                    if (err) {
+                        console.error('Error removing temporary uploaded file %s: %s', normalizedTempPath, err.message || err);
+                        return res.status(500).json({ error: 'Error processing uploaded file.' });
+                    }
+
+                    res.status(500).json({ error: 'Only image files are allowed.' });
                 });
             }
         };
