@@ -1,5 +1,6 @@
 var fs = require('fs'),
     path = require('path'),
+    os = require('os'),
     sidebar = require('../helpers/sidebar');
 
 module.exports = {
@@ -60,9 +61,18 @@ module.exports = {
                     res.redirect('/images/' + imgUrl);
                 });
             } else {
-                fs.unlink(tempPath, function (err) {
+                var uploadTempDir = os.tmpdir();
+                var normalizedTempPath = path.resolve(tempPath);
+
+                // Ensure that the temporary path is within the system temp directory
+                if (normalizedTempPath.indexOf(uploadTempDir + path.sep) !== 0 && normalizedTempPath !== uploadTempDir) {
+                    console.warn('Refusing to remove file outside temp directory: %s', normalizedTempPath);
+                    return res.status(500).json({ error: 'Error processing uploaded file.' });
+                }
+
+                fs.unlink(normalizedTempPath, function (err) {
                     if (err) {
-                        console.error('Error removing temporary uploaded file %s: %s', tempPath, err.message || err);
+                        console.error('Error removing temporary uploaded file %s: %s', normalizedTempPath, err.message || err);
                         return res.status(500).json({ error: 'Error processing uploaded file.' });
                     }
 
