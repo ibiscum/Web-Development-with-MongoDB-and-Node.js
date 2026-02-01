@@ -1,5 +1,3 @@
-module.exports = {
-    index: function(req, res) {
-        res.send('The home:index controller');
-    }
-};
+export function index(req, res) {
+  res.send('The home:index controller');
+}
