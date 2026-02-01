@@ -67,7 +67,16 @@ module.exports = {
                             });
                         });
                     } else {
-                        fs.unlink(tempPath, function () {
+                        // Validate tempPath before deleting to avoid deleting arbitrary files
+                        var uploadRoot = path.resolve('./public/upload');
+                        var resolvedTempPath = path.resolve(tempPath);
+
+                        if (!resolvedTempPath.startsWith(uploadRoot + path.sep)) {
+                            // Do not attempt to delete files outside the upload directory
+                            return res.json(500, { error: 'Only image files are allowed.' });
+                        }
+
+                        fs.unlink(resolvedTempPath, function (err) {
                             if (err) throw err;
 
                             res.json(500, {error: 'Only image files are allowed.'});
