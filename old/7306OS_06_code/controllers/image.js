@@ -52,20 +52,21 @@ module.exports = {
 
             var tempPath = req.files.file.path,
                 ext = path.extname(req.files.file.name).toLowerCase(),
-                targetPath = path.resolve('./public/upload/' + imgUrl + ext);
+                targetPath = path.resolve('./public/upload/' + imgUrl + ext),
+                normalizedTempPath = path.resolve(tempPath);
+
+            // Ensure the temporary upload path is inside the configured upload temp directory.
+            if (normalizedTempPath.indexOf(UPLOAD_TEMP_DIR) !== 0) {
+                return res.json(500, {error: 'Invalid upload path.'});
+            }
 
             if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
-                fs.rename(tempPath, targetPath, function(err) {
+                fs.rename(normalizedTempPath, targetPath, function(err) {
                     if (err) throw err;
 
                     res.redirect('/images/' + imgUrl);
                 });
             } else {
-                var normalizedTempPath = path.resolve(tempPath);
-                if (normalizedTempPath.indexOf(UPLOAD_TEMP_DIR) !== 0) {
-                    // Do not delete files outside the configured upload temp directory.
-                    return res.json(500, {error: 'Invalid upload path.'});
-                }
                 fs.unlink(normalizedTempPath, function (err) {
                     if (err) throw err;
 
