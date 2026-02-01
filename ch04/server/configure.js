@@ -1,32 +1,39 @@
-var connect = require('connect'),
-    path = require('path'),
-    routes = require('./routes'),
-    exphbs = require('express3-handlebars');
+import express from 'express';
+import router from 'express';
+import connect from 'connect';
+import logger from 'morgan';
+import methodOverride from 'method-override';
+import cookieParser from 'cookie-parser';
+// import bodyParser from 'body-parser';
+const { errorHandler } = connect;
+import { join } from 'path';
+import { initialize } from './routes.js';
+import { create } from 'express-handlebars';
 
-module.exports = function(app) {
-    app.engine('handlebars', exphbs.create({
-        defaultLayout: 'main',
-        layoutsDir: app.get('views') + '/layouts',
-        partialsDir: [app.get('views') + '/partials']
-    }).engine);
-    app.set('view engine', 'handlebars');
+export default function (app) {
+  app.engine('handlebars', create({
+    defaultLayout: 'main',
+    layoutsDir: app.get('views') + '/layouts',
+    partialsDir: [app.get('views') + '/partials']
+  }).engine);
+  app.set('view engine', 'handlebars');
 
-    app.use(connect.logger('dev'));
-    app.use(connect.bodyParser({
-        uploadDir:path.join(__dirname, '../public/upload/temp')
-    }));
-    app.use(connect.json());
-    app.use(connect.urlencoded());
-    app.use(connect.methodOverride());
-    app.use(connect.cookieParser('some-secret-value-here'));
-    app.use(app.router);
-    app.use('/public/', connect.static(path.join(__dirname, '../public')));
+  app.use(logger('dev'));
+  // app.use(bodyParser({
+  //   uploadDir: join(import.meta.dirname, '../public/upload/temp')
+  // }));
+  app.use(express.json());
+  app.use(express.urlencoded());
+  app.use(methodOverride());
+  app.use(cookieParser('some-secret-value-here'));
+  app.use(router());
+  app.use('/public/', join(import.meta.dirname, '../public'));
 
-    if ('development' === app.get('env')) {
-        app.use(connect.errorHandler());
-    }
+  if ('development' === app.get('env')) {
+    app.use(errorHandler());
+  }
 
-    routes.initialize(app);
+  initialize(app);
 
-    return app;
+  return app;
 };

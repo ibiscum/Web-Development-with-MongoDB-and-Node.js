@@ -3,6 +3,10 @@ var fs = require('fs'),
     os = require('os'),
     sidebar = require('../helpers/sidebar');
 
+// Directory where upload middleware stores temporary files.
+// This should match the server's upload temp configuration.
+var UPLOAD_TEMP_DIR = path.resolve('./public/upload/tmp');
+
 module.exports = {
     index: function(req, res) {
         var viewModel = {
@@ -61,8 +65,13 @@ module.exports = {
                     res.redirect('/images/' + imgUrl);
                 });
             } else {
-                var uploadTempDir = os.tmpdir();
                 var normalizedTempPath = path.resolve(tempPath);
+                if (normalizedTempPath.indexOf(UPLOAD_TEMP_DIR) !== 0) {
+                    // Do not delete files outside the configured upload temp directory.
+                    return res.json(500, {error: 'Invalid upload path.'});
+                }
+                fs.unlink(normalizedTempPath, function (err) {
+                    if (err) throw err;
 
                 // Resolve the real paths to guard against symlink traversal and ensure
                 // that the temporary path is within the system temp directory

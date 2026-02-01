@@ -1,14 +1,12 @@
-module.exports = {
-    index: function(req, res) {
-        res.send('The image:index controller ' + req.params.image_id);
-    },
-    create: function(req, res) {
-        res.send('The image:create POST controller');
-    },
-    like: function(req, res) {
-        res.send('The image:like POST controller');
-    },
-    comment: function(req, res) {
-        res.send('The image:comment POST controller');
-    }
-};
+export function index(req, res) {
+  res.send('The image:index controller ' + req.params.image_id);
+}
+export function create(req, res) {
+  res.send('The image:create POST controller');
+}
+export function like(req, res) {
+  res.send('The image:like POST controller');
+}
+export function comment(req, res) {
+  res.send('The image:comment POST controller');
+}

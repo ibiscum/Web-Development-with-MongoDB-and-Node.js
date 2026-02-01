@@ -1,10 +1,10 @@
-var home = require('../controllers/home'),
-    image = require('../controllers/image');
+import { index } from '../controllers/home.js';
+import { index as _index, create, like, comment } from '../controllers/image.js';
 
-module.exports.initialize = function(app) {
-    app.get('/', home.index);
-    app.get('/images/:image_id', image.index);
-    app.post('/images', image.create);
-    app.post('/images/:image_id/like', image.like);
-    app.post('/images/:image_id/comment', image.comment);
-};
+export function initialize (app) {
+  app.get('/', index);
+  app.get('/images/:image_id', _index);
+  app.post('/images', create);
+  app.post('/images/:image_id/like', like);
+  app.post('/images/:image_id/comment', comment);
+}
