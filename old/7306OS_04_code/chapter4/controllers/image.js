@@ -1,6 +1,8 @@
+var escape = require('escape-html');
+
 module.exports = {
     index: function(req, res) {
-        res.send('The image:index controller ' + req.params.image_id);
+        res.send('The image:index controller ' + escape(req.params.image_id));
     },
     create: function(req, res) {
         res.send('The image:create POST controller');
