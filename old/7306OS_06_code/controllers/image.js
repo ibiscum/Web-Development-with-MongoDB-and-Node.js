@@ -1,5 +1,6 @@
 var fs = require('fs'),
     path = require('path'),
+    os = require('os'),
     sidebar = require('../helpers/sidebar');
 
 // Directory where upload middleware stores temporary files.
@@ -56,7 +57,10 @@ module.exports = {
 
             if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
                 fs.rename(tempPath, targetPath, function(err) {
-                    if (err) throw err;
+                    if (err) {
+                        console.error('Error moving uploaded file from %s to %s: %s', tempPath, targetPath, err.message || err);
+                        return res.status(500).json({ error: 'Error saving uploaded file.' });
+                    }
 
                     res.redirect('/images/' + imgUrl);
                 });
@@ -69,7 +73,36 @@ module.exports = {
                 fs.unlink(normalizedTempPath, function (err) {
                     if (err) throw err;
 
-                    res.json(500, {error: 'Only image files are allowed.'});
+                // Resolve the real paths to guard against symlink traversal and ensure
+                // that the temporary path is within the system temp directory
+                fs.realpath(uploadTempDir, function (err, realTmpDir) {
+                    if (err) {
+                        console.error('Error resolving real path for temp directory %s: %s', uploadTempDir, err.message || err);
+                        return res.status(500).json({ error: 'Error processing uploaded file.' });
+                    }
+
+                    fs.realpath(normalizedTempPath, function (err, realTempPath) {
+                        if (err) {
+                            console.error('Error resolving real path for temporary uploaded file %s: %s', normalizedTempPath, err.message || err);
+                            return res.status(500).json({ error: 'Error processing uploaded file.' });
+                        }
+
+                        // Ensure that the real temporary path is within the real temp directory
+                        if (realTempPath !== realTmpDir &&
+                            realTempPath.indexOf(realTmpDir + path.sep) !== 0) {
+                            console.warn('Refusing to remove file outside temp directory: %s', realTempPath);
+                            return res.status(500).json({ error: 'Error processing uploaded file.' });
+                        }
+
+                        fs.unlink(realTempPath, function (err) {
+                            if (err) {
+                                console.error('Error removing temporary uploaded file %s: %s', realTempPath, err.message || err);
+                                return res.status(500).json({ error: 'Error processing uploaded file.' });
+                            }
+
+                            res.status(500).json({ error: 'Only image files are allowed.' });
+                        });
+                    });
                 });
             }
         };
