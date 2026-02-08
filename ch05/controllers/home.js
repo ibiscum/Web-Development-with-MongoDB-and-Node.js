@@ -1,5 +1,3 @@
-module.exports = {
-    index: function(req, res) {
-        res.render('index');
-    }
+export function indexHome(req, res) {
+  res.render('index');
 };

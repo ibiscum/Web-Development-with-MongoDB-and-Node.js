@@ -1,11 +1,12 @@
-var connect = require('connect'),
-  path = require('path'),
-  routes = require('./routes'),
-  exphbs = require('express-handlebars'),
-  moment = require('moment');
+// import pkg from 'connect';
+// const { logger, bodyParser, json, urlencoded, methodOverride, cookieParser, errorHandler } = pkg;
+// import { join } from 'path';
+import { initialize } from './routes.js';
+import { create } from 'express-handlebars';
+import moment from 'moment';
 
-module.exports = function (app) {
-  app.engine('handlebars', exphbs.create({
+export default function (app) {
+  app.engine('handlebars', create({
     defaultLayout: 'main',
     layoutsDir: app.get('views') + '/layouts',
     partialsDir: [app.get('views') + '/partials'],
@@ -16,24 +17,26 @@ module.exports = function (app) {
       }
     }
   }).engine);
+
   app.set('view engine', 'handlebars');
 
-  app.use(connect.logger('dev'));
-  app.use(connect.bodyParser({
-    uploadDir: path.join(__dirname, '../public/upload/temp')
-  }));
-  app.use(connect.json());
-  app.use(connect.urlencoded());
-  app.use(connect.methodOverride());
-  app.use(connect.cookieParser('some-secret-value-here'));
-  app.use(app.router);
-  app.use('/public/', connect.static(path.join(__dirname, '../public')));
+  // app.use(logger('dev'));
+  // app.use(bodyParser({
+  //   uploadDir: join(import.meta.dirname, '../public/upload/temp')
+  // }));
 
-  if ('development' === app.get('env')) {
-    app.use(connect.errorHandler());
-  }
+  // app.use(json());
+  // app.use(urlencoded());
+  // app.use(methodOverride());
+  // app.use(cookieParser('some-secret-value-here'));
+  // app.use(app.router);
+  // app.use('/public/', (join(import.meta.dirname, '../public')));
 
-  routes.initialize(app);
+  // if ('development' === app.get('env')) {
+  //   app.use(errorHandler());
+  // }
+
+  initialize(app);
 
   return app;
 };

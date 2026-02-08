@@ -43,7 +43,7 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1
       express-handlebars:
-        specifier: ^8.0.4
+        specifier: ^8.0.5
         version: 8.0.5
       method-override:
         specifier: ^3.0.0
@@ -58,7 +58,7 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1
       express-handlebars:
-        specifier: ^8.0.4
+        specifier: ^8.0.5
         version: 8.0.5
       moment:
         specifier: ^2.30.1
