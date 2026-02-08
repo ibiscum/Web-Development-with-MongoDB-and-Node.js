@@ -2,6 +2,9 @@ var fs = require('fs'),
     path = require('path'),
     sidebar = require('../helpers/sidebar');
 
+// Define a safe root directory for temporary uploads
+var UPLOAD_TMP_ROOT = path.resolve('./public/upload_tmp');
+
 module.exports = {
     index: function(req, res) {
         var viewModel = {
@@ -50,14 +53,20 @@ module.exports = {
                 ext = path.extname(req.files.file.name).toLowerCase(),
                 targetPath = path.resolve('./public/upload/' + imgUrl + ext);
 
+            // Resolve and validate the temporary path to ensure it is under UPLOAD_TMP_ROOT
+            var resolvedTempPath = path.resolve(UPLOAD_TMP_ROOT, path.basename(tempPath));
+            if (!resolvedTempPath.startsWith(UPLOAD_TMP_ROOT + path.sep)) {
+                return res.json(400, { error: 'Invalid upload path.' });
+            }
+
             if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
-                fs.rename(tempPath, targetPath, function(err) {
+                fs.rename(resolvedTempPath, targetPath, function(err) {
                     if (err) throw err;
 
                     res.redirect('/images/' + imgUrl);
                 });
             } else {
-                fs.unlink(tempPath, function () {
+                fs.unlink(resolvedTempPath, function (err) {
                     if (err) throw err;
 
                     res.json(500, {error: 'Only image files are allowed.'});
