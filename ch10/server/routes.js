@@ -26,9 +26,15 @@ var homeLimiter = RateLimit({
     max: 1000                 // limit each IP to 1000 home requests per windowMs
 });
 
+// Rate limiter for image view operations to prevent abuse/DoS on database reads
+var imageViewLimiter = RateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 2000                 // limit each IP to 2000 image view requests per windowMs
+});
+
 module.exports.initialize = function(app) {
     app.get('/', homeLimiter, home.index);
-    app.get('/images/:image_id', image.index);
+    app.get('/images/:image_id', imageViewLimiter, image.index);
     app.post('/images', image.create);
     app.post('/images/:image_id/like', likeLimiter, image.like);
     app.post('/images/:image_id/comment', commentLimiter, image.comment);
