@@ -61,13 +61,25 @@ module.exports = {
 
             if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
                 fs.rename(resolvedTempPath, targetPath, function(err) {
-                    if (err) throw err;
+                    if (err) {
+                        console.error('Error moving uploaded file:', err);
+                        if (!res.headersSent) {
+                            res.status(500).json({ error: 'Error saving uploaded image.' });
+                        }
+                        return;
+                    }
 
                     res.redirect('/images/' + imgUrl);
                 });
             } else {
                 fs.unlink(resolvedTempPath, function (err) {
-                    if (err) throw err;
+                    if (err) {
+                        console.error('Error removing invalid uploaded file:', err);
+                        if (!res.headersSent) {
+                            res.status(500).json({ error: 'Error removing invalid uploaded file.' });
+                        }
+                        return;
+                    }
 
                     res.json(500, {error: 'Only image files are allowed.'});
                 });
