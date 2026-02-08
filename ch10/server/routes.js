@@ -20,8 +20,14 @@ var likeLimiter = RateLimit({
     max: 500                  // limit each IP to 500 like requests per windowMs
 });
 
+// Rate limiter for home page to prevent abuse/DoS on database reads
+var homeLimiter = RateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 1000                 // limit each IP to 1000 home requests per windowMs
+});
+
 module.exports.initialize = function(app) {
-    app.get('/', home.index);
+    app.get('/', homeLimiter, home.index);
     app.get('/images/:image_id', image.index);
     app.post('/images', image.create);
     app.post('/images/:image_id/like', likeLimiter, image.like);
