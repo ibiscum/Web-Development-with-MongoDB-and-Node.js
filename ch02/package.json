@@ -1,0 +1,16 @@
+{
+  "name": "ch02",
+  "version": "0.0.0",
+  "main": "ch03_01_variables.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node ch03_01_variables.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^9.1.6"
+  }
+}

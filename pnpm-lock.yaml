@@ -22,6 +22,18 @@ importers:
         specifier: ^17.3.0
         version: 17.3.0
 
+  ch02:
+    dependencies:
+      mongoose:
+        specifier: ^9.1.6
+        version: 9.1.6
+
+  ch03:
+    dependencies:
+      mongoose:
+        specifier: ^9.1.6
+        version: 9.1.6
+
   ch04:
     dependencies:
       cookie-parser:
@@ -120,6 +132,9 @@ importers:
       express-handlebars:
         specifier: ^8.0.5
         version: 8.0.5
+      express-rate-limit:
+        specifier: ^8.2.1
+        version: 8.2.1(express@5.2.1)
       md5:
         specifier: ^2.3.0
         version: 2.3.0

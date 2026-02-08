@@ -1,0 +1,16 @@
+{
+  "name": "ch03",
+  "version": "0.0.0",
+  "main": "ch02_01_mongodb.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node ch02_01_mongodb.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^9.1.6"
+  }
+}
