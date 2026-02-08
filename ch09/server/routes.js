@@ -18,8 +18,13 @@ var viewLimiter = RateLimit({
     max: 200                   // limit each IP to 200 image view requests per windowMs
 });
 
+var homeLimiter = RateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 200                   // limit each IP to 200 home page requests per windowMs
+});
+
 module.exports.initialize = function(app) {
-    app.get('/', home.index);
+    app.get('/', homeLimiter, home.index);
     app.get('/images/:image_id', viewLimiter, image.index);
     app.post('/images', image.create);
     app.post('/images/:image_id/like', commentLimiter, image.like);
