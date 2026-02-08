@@ -4,6 +4,8 @@ var fs = require('fs'),
     Models = require('../models'),
     md5 = require('MD5');
 
+var UPLOAD_TMP_DIR = path.resolve('./uploads');
+
 module.exports = {
     index: function(req, res) {
         var viewModel = {
@@ -48,7 +50,7 @@ module.exports = {
                 if (images.length > 0) {
                     saveImage();
                 } else {
-                    var tempPath = req.files.file.path,
+                    var tempPath = path.resolve(UPLOAD_TMP_DIR, path.basename(req.files.file.path)),
                         ext = path.extname(req.files.file.name).toLowerCase(),
                         targetPath = path.resolve('./public/upload/' + imgUrl + ext);
 
