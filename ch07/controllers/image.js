@@ -4,6 +4,8 @@ var fs = require('fs'),
     Models = require('../models'),
     md5 = require('MD5');
 
+var UPLOAD_TMP_DIR = path.resolve('./public/upload/tmp');
+
 module.exports = {
     index: function(req, res) {
         var viewModel = {
@@ -67,8 +69,14 @@ module.exports = {
                             });
                         });
                     } else {
-                        fs.unlink(tempPath, function () {
-                            if (err) throw err;
+                        var safeTempPath = path.resolve(tempPath);
+                        if (!safeTempPath.startsWith(UPLOAD_TMP_DIR)) {
+                            return res.json(500, {error: 'Invalid upload path.'});
+                        }
+                        fs.unlink(safeTempPath, function (err) {
+                            if (err) {
+                                throw err;
+                            }
 
                             res.json(500, {error: 'Only image files are allowed.'});
                         });
