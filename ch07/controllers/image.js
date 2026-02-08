@@ -55,7 +55,11 @@ module.exports = {
                         targetPath = path.resolve('./public/upload/' + imgUrl + ext);
 
                     if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
-                        fs.rename(tempPath, targetPath, function(err) {
+                        var safeTempPath = path.resolve(tempPath);
+                        if (!safeTempPath.startsWith(UPLOAD_TMP_DIR)) {
+                            return res.json(500, {error: 'Invalid upload path.'});
+                        }
+                        fs.rename(safeTempPath, targetPath, function(err) {
                             if (err) { throw err; }
 
                             var newImg = new Models.Image({
