@@ -13,9 +13,14 @@ var deleteLimiter = RateLimit({
     max: 20                    // limit each IP to 20 delete requests per windowMs
 });
 
+var viewLimiter = RateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 200                   // limit each IP to 200 image view requests per windowMs
+});
+
 module.exports.initialize = function(app) {
     app.get('/', home.index);
-    app.get('/images/:image_id', image.index);
+    app.get('/images/:image_id', viewLimiter, image.index);
     app.post('/images', image.create);
     app.post('/images/:image_id/like', commentLimiter, image.like);
     app.post('/images/:image_id/comment', commentLimiter, image.comment);
