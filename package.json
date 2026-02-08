@@ -28,6 +28,6 @@
     "ch10"
   ],
   "dependencies": {
-    "mongodb": "^7.0.0"
+    "mongodb": "^7.1.0"
   }
 }
