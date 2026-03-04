@@ -12,6 +12,6 @@
     "body-parser": "^2.2.2",
     "express": "^5.2.1",
     "request": "^2.88.2",
-    "underscore": "^1.13.7"
+    "underscore": "^1.13.8"
   }
 }

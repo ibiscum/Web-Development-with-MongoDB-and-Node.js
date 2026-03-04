@@ -115,8 +115,8 @@ importers:
         specifier: ^2.88.2
         version: 2.88.2
       underscore:
-        specifier: ^1.13.7
-        version: 1.13.7
+        specifier: ^1.13.8
+        version: 1.13.8
 
   ch09:
     dependencies:
@@ -1203,8 +1203,8 @@ packages:
     engines: {node: '>=0.8.0'}
     hasBin: true
 
-  underscore@1.13.7:
-    resolution: {integrity: sha512-GMXzWtsc57XAtguZgaQViUOzs0KTkk8ojr3/xAxXLITqf/3EMwxC0inyETfDFjH/Krbhuep0HNbbjI9i/q3F3g==}
+  underscore@1.13.8:
+    resolution: {integrity: sha512-DXtD3ZtEQzc7M8m4cXotyHR+FAS18C64asBYY5vqZexfYryNNnDc02W4hKg3rdQuqOYas1jkseX0+nZXjTXnvQ==}
 
   unpipe@1.0.0:
     resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}
@@ -2273,7 +2273,7 @@ snapshots:
   uglify-js@3.19.3:
     optional: true
 
-  underscore@1.13.7: {}
+  underscore@1.13.8: {}
 
   unpipe@1.0.0: {}
 
