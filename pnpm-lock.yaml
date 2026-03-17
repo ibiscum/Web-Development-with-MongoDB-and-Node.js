@@ -91,8 +91,8 @@ importers:
         specifier: ^8.0.5
         version: 8.0.5
       express-rate-limit:
-        specifier: ^8.2.1
-        version: 8.2.1(express@5.2.1)
+        specifier: ^8.2.2
+        version: 8.2.2(express@5.2.1)
       md5:
         specifier: ^2.3.0
         version: 2.3.0
@@ -133,8 +133,8 @@ importers:
         specifier: ^8.0.5
         version: 8.0.5
       express-rate-limit:
-        specifier: ^8.2.1
-        version: 8.2.1(express@5.2.1)
+        specifier: ^8.2.2
+        version: 8.2.2(express@5.2.1)
       md5:
         specifier: ^2.3.0
         version: 2.3.0
@@ -173,8 +173,8 @@ importers:
         specifier: ^8.0.5
         version: 8.0.5
       express-rate-limit:
-        specifier: ^8.2.1
-        version: 8.2.1(express@5.2.1)
+        specifier: ^8.2.2
+        version: 8.2.2(express@5.2.1)
       md5:
         specifier: ^2.3.0
         version: 2.3.0
@@ -562,8 +562,8 @@ packages:
     resolution: {integrity: sha512-Mk7bkQJyzLyN/XecKdVJ13Tti6v1aSrlJz32CiMIQw8SO0LlnytXWy62DKPTzkdlUZW4h3Y4CGrFgfXZohn9SQ==}
     engines: {node: '>=22.21.1'}
 
-  express-rate-limit@8.2.1:
-    resolution: {integrity: sha512-PCZEIEIxqwhzw4KF0n7QF4QqruVTcF73O5kFKUnGOyjbCCgizBBiFaYpd/fnBLUMPw/BWw9OsiN7GgrNYr7j6g==}
+  express-rate-limit@8.2.2:
+    resolution: {integrity: sha512-Ybv7bqtOgA914MLwaHWVFXMpMYeR1MQu/D+z2MaLYteqBsTIp9sY3AU7mGNLMJv8eLg8uQMpE20I+L2Lv49nSg==}
     engines: {node: '>= 16'}
     peerDependencies:
       express: '>= 4.11'
@@ -720,8 +720,8 @@ packages:
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
-  ip-address@10.0.1:
-    resolution: {integrity: sha512-NWv9YLW4PoW2B7xtzaS3NCot75m6nK7Icdv0o3lfMceJVRfSoQwqD4wEH5rLwoKJwUiZ/rfpiVBhnaF0FK4HoA==}
+  ip-address@10.1.0:
+    resolution: {integrity: sha512-XXADHxXmvT9+CRxhXg56LJovE+bmWnEWB78LB83VZTprKTmaC5QfruXocxzTZ2Kl0DNwKuBdlIhjL8LeY8Sf8Q==}
     engines: {node: '>= 12'}
 
   ipaddr.js@1.9.1:
@@ -1616,10 +1616,10 @@ snapshots:
       graceful-fs: 4.2.11
       handlebars: 4.7.8
 
-  express-rate-limit@8.2.1(express@5.2.1):
+  express-rate-limit@8.2.2(express@5.2.1):
     dependencies:
       express: 5.2.1
-      ip-address: 10.0.1
+      ip-address: 10.1.0
 
   express@5.2.1:
     dependencies:
@@ -1815,7 +1815,7 @@ snapshots:
 
   inherits@2.0.4: {}
 
-  ip-address@10.0.1: {}
+  ip-address@10.1.0: {}
 
   ipaddr.js@1.9.1: {}
 
